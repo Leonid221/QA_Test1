@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
@@ -19,21 +20,24 @@ public class QAA {
         driver.get("http://localhost/index.html");
 
 
-        String expectedTitle = "Guardians of the Galaxy Vol. 2";
+        String expectedTitle = "Galaxy";
 
         WebElement movieSearch = driver.findElement(By.id("input_text_field"));
         WebElement searchBtn = driver.findElement(By.id("get_film_info"));
 
-        movieSearch.sendKeys("Guardians of the Galaxy Vol. 2");
+        movieSearch.sendKeys("Galaxy");
         searchBtn.click();
 
 
-        WebElement directorName = new WebDriverWait(driver, Duration.ofSeconds(40))
+        WebElement title = new WebDriverWait(driver, Duration.ofSeconds(40))
                 .until(elementToBeClickable(By.id("result_title")));
 
-        System.out.println("Title "+directorName.getText());
 
-        Assert.assertEquals(directorName.getText(),expectedTitle);
+        System.out.println("Title :"+title.getText());
+
+        String textContain = driver.findElement(By.id("result_title")).getText();
+        Assert.assertTrue(textContain.contains(expectedTitle) , "Text not found");
+        
 
     }
 
@@ -54,12 +58,12 @@ public class QAA {
         searchBtn.click();
 
 
-        WebElement directorName = new WebDriverWait(driver, Duration.ofSeconds(40))
+        WebElement year = new WebDriverWait(driver, Duration.ofSeconds(40))
                 .until(elementToBeClickable(By.id("result_year")));
 
-        System.out.println("Year "+directorName.getText());
+        System.out.println("Year :"+year.getText());
 
-        Assert.assertEquals(directorName.getText(),expectedYear);
+        Assert.assertEquals(year.getText(),expectedYear);
 
     }
 
@@ -83,7 +87,7 @@ public class QAA {
     WebElement directorName = new WebDriverWait(driver, Duration.ofSeconds(40))
             .until(elementToBeClickable(By.id("result_director")));
 
-            System.out.println("Director's Name "+directorName.getText());
+            System.out.println("Director's Name :"+directorName.getText());
 
             Assert.assertEquals(directorName.getText(),expectedDirector);
 
