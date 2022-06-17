@@ -93,11 +93,53 @@ public class QAA {
 
 }
 
+    static void checkArray(){
+        System.setProperty("webdriver.chrome.driver","/usr/local/bin/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("http://localhost/index.html");
+
+
+        //String expectedDirector = "James Gunn";
+
+        WebElement movieSearch = driver.findElement(By.id("input_text_field"));
+        WebElement searchBtn = driver.findElement(By.id("get_film_info"));
+
+        movieSearch.sendKeys("Guardians of the Galaxy Vol. 2");
+        searchBtn.click();
+
+
+        WebElement title = new WebDriverWait(driver, Duration.ofSeconds(40))
+                .until(elementToBeClickable(By.id("result_title")));
+        WebElement year = new WebDriverWait(driver, Duration.ofSeconds(40))
+                .until(elementToBeClickable(By.id("result_year")));
+        WebElement directorName = new WebDriverWait(driver, Duration.ofSeconds(40))
+                .until(elementToBeClickable(By.id("result_director")));
+
+
+        boolean fieldsEmpty = false;
+        String[] allValue = new String[] {title.getText(),year.getText(),directorName.getText()};
+
+        for (int i = 0; i < 3; i++){
+            if (allValue[i] == "undefined"){
+                fieldsEmpty = true;
+            }
+        }
+
+
+        //System.out.println("Director's Name :"+directorName.getText());
+
+        Assert.assertEquals(fieldsEmpty,true);
+
+    }
+
 
         public static void main (String[]args){
 
-        checkTitle();
-        checkYear();
-        checkDirector();
+//        checkTitle();
+//        checkYear();
+//        checkDirector();
+            checkArray();
     }
 }
